@@ -13,34 +13,6 @@ TCP = 6
 'objICMPSettings.AllowInboundEchoRequest = TRUE
 
 
-Dim TTTTTT
-Function verifyOS()
-
-	Set dtmConvertedDate = CreateObject("WbemScripting.SWbemDateTime")
-	strComputer = "."
-	Set objWMIService = GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & strComputer & "\root\cimv2")
-	Set oss = objWMIService.ExecQuery ("Select * from Win32_OperatingSystem")
-	dim osVer, removeDot
-		For Each os in oss
-			osVer = os.Version
-			
-		Next
-		removeDot= Left(osVer,3)
-		WScript.echo removeDot
-		removeDot = CSng(removeDot)
-		verifyOS = removeDot
-End Function
-Dim removeDot
-
-if verifyOS >= 5.2 then 
-WScript.echo "the os is newer than vista"
-else
-WScript.echo "is the crapy xp"
-
-End If
-
-
-
 
 Function addPorts(initial, final, portTag, Protocol)
 if IsNull(final)then
@@ -60,7 +32,7 @@ For Port= initial To final Step 1
 		objPort.Port = Port
 		objPort.Name = portTag & " " & Port
 		objPort.Protocol = Protocol
-		objPort.Enabled = FALSE
+		objPort.Enabled = TRUE
 		Set colPorts = objPolicy.GloballyOpenPorts
 		errReturn = colPorts.Add(objPort)
 	Next
